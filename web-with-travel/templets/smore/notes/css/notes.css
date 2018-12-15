@@ -1,0 +1,81 @@
+.user_detailed .gr_js{
+    float:left;
+    width:180px;
+    height:100px;
+    font-family:"微软雅黑";
+    border:1px solid #dcdcdc}
+
+.user_yj{
+    color:#666;
+    float:left;
+    width:1018px}
+.user_yj ul{
+    float:left;
+    width:988px;
+    padding:0 15px}
+.user_yj ul li{
+    float:left;
+    width:988px;
+    margin-top:15px;
+    padding-bottom:10px;
+    border-bottom:1px dashed #e1e1e1}
+.user_yj ul li.bor_0{
+    border-bottom:0}
+.user_yj li .tit{
+    float:left;
+    width:680px}
+.user_yj li .tit a,
+.user_yj li .tit span{
+    float:left;
+    color:#4c6fb0;
+    width:680px;
+    height:24px;
+    line-height:24px;
+    font-size:16px;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis}
+.user_yj li .tit span{
+    color:#999;
+    font-size:12px}
+.user_yj li .cz{
+    float:right;
+    width:300px}
+.user_yj li .cz em{
+    float:right;
+    color:#fff;
+    height:24px;
+    line-height:24px;
+    padding:0 25px;
+    font-style:normal;
+    border-radius:3px}
+.user_yj li .cz em.ing{
+    background:#ffc000}
+.user_yj li .cz em.no{
+    background:#f74343}
+.user_yj li .cz em.yes{
+    background:#7bbf43}
+.user_yj li .cz span{
+    float:right;
+    width:300px}
+.user_yj li .cz span a,
+.user_yj li .cz span strong{
+    color:#666;
+    float:right;
+    height:30px;
+    line-height:30px;
+    margin:0 7px;
+    font-weight:500;
+    padding-left:16px;
+    background:url(../images/user_yj_cz_ico.png) no-repeat}
+.user_yj li .cz span a.xg{
+    background-position:0 9px}
+.user_yj li .cz span a.sc{
+    background-position:0 -24px}
+.user_yj li .cz span strong.tg{
+    padding-left:18px;
+    background-position:0 -57px}
+.user_yj li .cz span strong b{
+    color:#ff0b0b;
+    padding:0 3px;
+    font-weight:500}

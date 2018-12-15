@@ -1,0 +1,89 @@
+@charset "utf-8";
+/*首页滚动图修改样式*/
+.am-direction-nav{
+	display:none}
+
+.st_home_menu{
+	padding:10px;
+	background:#fff;
+	box-shadow:0 1px 3px #e5e5e5}
+.st_home_menu p{
+	margin:1rem 0}
+.st_home_menu p:after{
+	content:'.';
+	height:0;
+	display:block;
+	visibility:hidden;
+	clear:both}
+.st_home_menu p a{
+	float:left;
+	display:block;
+	width:25%}
+.st_home_menu p a span,
+.st_home_menu p a strong{
+	color:#333;
+	display:block;
+	padding:2px 0;
+	text-align:center;
+	font-weight:500;
+	font-size:1.5rem}
+.st_home_menu p a img{
+	width:50%}
+
+.st_sale_box{
+	margin:10px 0;
+	background:#fff;
+	box-shadow:0 1px 3px #e5e5e5}
+.st_sale_box h3{
+	margin:0;
+	color:#333;
+	padding:1rem}
+.st_sale_box h3 i{
+	float:left;
+	width:5px;
+	height:24px;
+	margin-right:10px;
+	background:#ff6b1a}
+.st_sale_con{
+	display:-webkit-box;
+	display:-moz-box}
+.st_sale_box a{
+	display:block;
+	border-right:1px solid #f3f3f3;
+	border-top:1px solid #f3f3f3}
+.st_sale_box img{
+	width:100%}
+.st_advpic_l{
+	width:50%;
+	-webkit-box-flex:1}
+.st_advpic_r{
+	width:50%;
+	overflow:hidden;
+	-webkit-box-flex:1}
+
+.tuan_home_con,
+.jb_list_home{
+	margin-bottom:10px;
+	background:#fff;
+	box-shadow:0 1px 3px #e5e5e5}
+.tuan_home_con:after{
+	content:'.';
+	clear:both;
+	display:block;
+	height:0;
+	visibility:hidden}
+.tuan_hm_list li{
+	box-shadow:none}
+.tuan_hm_list li a .price del{
+	color:#999;
+	font-size:1.4rem;
+	margin-left:1rem}
+
+.jb_list_home h3{
+	border-bottom:1px solid #f3f3f3}
+
+
+
+
+
+

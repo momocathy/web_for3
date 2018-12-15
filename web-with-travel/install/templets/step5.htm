@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>安装成功-思途旅游CMS</title>
+<link type="text/css" rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+	<!--头部内容开始-->
+  <div class="header">
+    <div class="top_img">
+      <div class="con_img"><img class="fl" src="images/top_bg.gif" /></div>
+    </div>
+    <div class="top_logo">
+      <div class="con_logo">
+        <img class="fl" src="images/logo.gif" alt="思途旅游" />
+        <div class="txt">思途CMS v6.0</div>
+      </div>
+    </div>
+  </div>
+  <!--头部内容结束-->
+   <?php
+  if(!check_license())
+  {
+  ?>
+ <div style="color: red; text-align: center; font-size: 20px;">
+ 没有在当前系统中检测到思途CMS授权文件，请确保您当前使用的是正版思途CMS系统，如有疑问请登陆<a href='http://www.stourweb.com' target='_blank'>思途CMS官网</a>进行了解咨询！
+ </div>
+ <?php
+  }
+ ?>
+  
+  <!--正文内容开始-->
+  <div class="content">
+  	<div class="width_700">
+    	<div class="con_big">
+      	<div class="title">安装完成</div>
+      	<div class="check_hj">
+        	<div class="finish">感谢您的安装！</div>
+          <div class="select">
+          	<a href="../">网站首页</a>
+            <a href="../newtravel/">管理后台</a>
+          </div>
+        </div>
+      	<div class="copy">Copyright © 2008-<?php echo date("Y");?> 四川思途智旅软件有限公司</div>
+      </div>
+    </div>
+  </div>
+  <!--正文内容结束-->
+  
+</body>
+</html>

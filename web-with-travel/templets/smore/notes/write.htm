@@ -1,0 +1,181 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{sline:field.write/}{sline:field.title/}-{sline:global.cfg_webname/}</title>
+    {sline:field.seokeyword/}
+    {sline:field.seodescription/}
+    <meta name="author" content="{sline:global.cfg_webname/}" />
+    {sline:php}Helper_Archive::getCss('base.css');{/sline:php}
+    {sline:php}Helper_Archive::getScript('jquery-1.8.3.min.js,common.js');{/sline:php}
+
+    <link href="/templets/smore/notes/css/user_yj.css" rel="stylesheet" media="screen" type="text/css" />
+    <script src="/templets/smore/notes/js/lightbox.js"></script>
+</head>
+<style>
+    .hide{ display: none;}
+    .tj_gg_box,.pic_con{ position: relative;}
+    .file{ position:absolute; top:14px; left:26px; height:55px; filter:alpha(opacity:0);opacity: 0;width:55px; cursor: pointer; }
+    .pic_con .file{ width: 145px; height: 54px; top:81px; left: 80px;}
+    .edit_con{padding:0;}
+    .tj_yj_tit input{ width: 1000px;}
+</style>
+<body>
+{sline:gettemplet pagename='header'/}
+<!-- 导航结束 -->
+
+<div class="big">
+    <div class="width_1210">
+
+        <div class="top_yj_fb">
+            <span>发表新游记</span>
+            <a href="#" class="release">发表游记</a>
+        </div>
+
+    </div>
+</div>
+
+<div class="fb_top_bg" id="banner" style=" background:url('{sline:field.bannerpic/}') center no-repeat;background-size:100% ">
+    <div class="tj_gg_box">
+        <form method="post" action="/notes/upload.php?coord=banner" target="exec_target" enctype="multipart/form-data">
+        <i></i>
+        <input type="file" name="upload" id="upload" class="file">
+        <!-- 添加上传文件 -->
+        <strong class="uptop">添加游记顶部图</strong>
+        <span class="uptop">图片尺寸建议1920px*420px</span>
+        </form>
+    </div>
+    <div class="tj_yj_tit">
+        <input type="text"  class="write" value="{sline:field.title/}"  max="40" id="title" autocomplete="off" placeholder="这里添加游记标题" />
+        <span id="title_notes" data="最长40个字">最长40个字</span>
+    </div>
+</div>
+
+<div class="big bg_f5">
+    <div class="width_1210">
+        <div class="pic_txt_box">
+            <div class="pic_con">
+                <form method="post" action="/notes/upload.php?coord=cover" target="exec_target" enctype="multipart/form-data">
+                <img id="cover" src="{sline:field.litpic/}" width="310" height="218" />
+                <span class="add_pic"><a href="javascript:;">添加封面</a></span>
+                 <input type="file" name="upload" autocomplete="off" id="upload" class="file">
+                </form>
+            </div>
+            <div class="txt_con">
+                <span class="yht"></span>
+                <textarea cols="" rows="" autocomplete="off" class="write" id="descript" max="140">{sline:field.description/}</textarea>
+                <span class="yhb"></span>
+                <p id="descript_notes" data="最多140个字">最多140个字</p>
+            </div>
+        </div>
+
+        <div class="edit_box">
+            <h3>编辑正文</h3>
+
+            <div class="edit_con" id="myEditor">
+                {sline:php}
+                    Helper_Archive::getEditor('content',$pv->Fields['content'],1210,350,'Line');
+                {/sline:php}
+            </div>
+            <a href="#" class="release">发表游记</a>
+        </div>
+
+    </div>
+</div>
+<form id="save" class="hide" action="/notes/save.php" enctype="multipart/form-data" method="post">
+<input type="hidden" autocomplete="off" name="id" value="{sline:field.id/}"/>
+<input type="hidden" autocomplete="off" name="title" class="title" value="{sline:field.title/}"/>
+<input type="hidden" autocomplete="off" name="bannerpic" value="{sline:field.bannerpic/}" />
+<input type="hidden" autocomplete="off" name="litpic" value="{sline:field.litpic/}"/>
+<textarea name="description" class="descript" autocomplete="off">{sline:field.description/}</textarea>
+<textarea name="content" class="content"  autocomplete="off"></textarea>
+</form>
+{sline:gettemplet pagename='footer'/}
+<iframe id="exec_target" name="exec_target" class="hide"></iframe>
+</body>
+<script src="/templets/smore/js/layer/layer.min.js"></script>
+<script>
+$(function(){
+
+
+    $(".uptop").click(function(){
+        $(this).parent().find('input').trigger('click');
+    })
+
+
+    $(".file").change(function(){
+       var val=$(this).val();
+        if(val!=''){
+            $(this).parent('form').submit();
+        }
+    });
+    $("#exec_target").load(function(){
+        var data = $(window.frames['exec_target'].document.body).find("textarea").html();
+        if(data != null){
+            data= eval('(' + data + ')');
+            if(data.code<400){
+                if(data.coord=='banner'){
+                $("#banner").css({'background':'url('+data.src+') center no-repeat','backgroundSize':'100%'});
+                    $('#save').find('input[name="bannerpic"]').val(data.src);
+                }else{
+                  $('#cover').attr('src',data.src);
+                    $('#save').find('input[name="litpic"]').val(data.src);
+                }
+            }else{
+                layer.msg(data.msg, 1,8);
+            }
+            $("#upload").val('');
+        }
+    });
+    //限制输入
+    $('.write').keyup(function(){
+       var val=$(this).val();
+       var len=val.length;
+       var max=$(this).attr('max');
+      var id=$(this).attr('id');
+      if(max>len){
+         $('#'+id+'_notes').html('你还可再输入'+(max-len)+'个字');
+          $('#save').find('.'+id).val(val);
+      }else{
+          $(this).val(val.slice(0, max));
+          $('#save').find('.'+id).val(val.slice(0, max));
+          $('#'+id+'_notes').html($('#'+id+'_notes').attr('data'));
+      }
+
+    });
+    //发布
+    $('.release').click(function(){
+     var title=$('#title').val();
+      if(title==''){
+          layer.msg('标题不能为空', 1,8);
+          return;
+      }
+     var desc=$('#descript').val();
+        if(desc==''){
+            layer.msg('简要描述不能为空', 1,8);
+            return;
+        }
+      var bannerpic=$('#save').find('input[name="bannerpic"]').val();
+        if(bannerpic.indexOf("uploads")<1){
+            layer.msg('游记顶部图不能为空', 1,8);
+            return;
+        }
+    var coverpic=$('#save').find('input[name="litpic"]').val();
+        if(coverpic.indexOf("uploads")<1){
+            layer.msg('封面图片不能为空', 1,8);
+            return;
+        }
+     var content=$('#myEditor').find('#ueditor_0').contents().find("body").html();
+     var temp=content;
+        if(temp.replace(/<[^>]+>/g,"")==''){
+            layer.msg('内容不能为空', 1,8);
+          return;
+        }
+     $('#save').find('.content').val(content);
+     $('#save').submit();
+      return;
+    });
+
+});
+</script>
+</html>

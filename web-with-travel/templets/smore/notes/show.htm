@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{sline:field.title/}-{sline:global.cfg_webname/}</title>
+    {sline:field.seokeyword/}
+    {sline:field.seodescription/}
+    {sline:php}Helper_Archive::getCss('base.css','2014.06');{/sline:php}
+    <link href="/templets/smore/notes/css/user_yj.css" rel="stylesheet" media="screen" type="text/css" />
+    {sline:php}Helper_Archive::getScript('jquery-1.8.3.min.js,common.js','2014.06');{/sline:php}
+</head>
+
+<body>
+{sline:include file='public/header.htm'/}
+<!-- 导航结束 -->
+{sline:php}
+  $bg='/templets/smore/notes/images/pic/6.jpg';
+  if($pv->Fields['bannerpic']){
+         $bg=$pv->Fields['bannerpic'];
+   }
+{/sline:php}
+<div class="fb_top_bg" style=" background:url('{sline:field.bannerpic/}' )  center no-repeat">';
+    <div class="show_tit"><strong>{sline:field.title/}</strong></div>
+</div>
+
+<div class="big msg_shadow">
+    <div class="show_msg">
+        <img src="{sline:field.litpic/}" alt="{sline:field.nickname/}" width="130" height="130" />
+        <span class="name">{sline:field.nickname/}</span>
+        <span class="date">{sline:field.modtime function="date('Y-m-d H:i',@me)"/}</span>
+        <span class="num">{sline:field.shownum/}人已阅</span>
+    </div>
+</div>
+<div class="big bg_f5">
+    <div class="width_1210">
+        <div class="show_txt_con">
+            <div class="show_js">
+                <span class="qm"></span>
+                <span class="hm"></span>
+                {sline:field.description/}
+            </div>
+            <div class="show_nr">
+                {sline:field.content/}
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{sline:include file='public/footer.htm'/}
+</body>
+</html>

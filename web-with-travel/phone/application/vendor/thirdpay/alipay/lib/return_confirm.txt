@@ -1,0 +1,37 @@
+array (
+  'alipay_sign' => 'd7c2ba6738871deae73522704a9c8e33',
+  'alipay_str' => 'out_trade_no=1310223323&request_token=requestToken&result=success&trade_no=2015102200001000960060852331',
+  'key' => 'o7dnkgrzwg6m29tjaa7itsd72uhoukvp',
+  'local_sign' => 'd7c2ba6738871deae73522704a9c8e33',
+  'from' => 'return',
+)array (
+  'alipay_sign' => '2973b427f0bee9103c80234d08870539',
+  'alipay_str' => 'out_trade_no=1310228789&request_token=requestToken&result=success&trade_no=2015102200001000960060852670',
+  'key' => 'o7dnkgrzwg6m29tjaa7itsd72uhoukvp',
+  'local_sign' => '2973b427f0bee9103c80234d08870539',
+  'from' => 'return',
+)array (
+  'alipay_sign' => '361164b4bf19c59fa11b6de0e22e8bd0',
+  'alipay_str' => 'out_trade_no=0510222929&request_token=requestToken&result=success&trade_no=2015102200001000960060853177',
+  'key' => 'o7dnkgrzwg6m29tjaa7itsd72uhoukvp',
+  'local_sign' => '361164b4bf19c59fa11b6de0e22e8bd0',
+  'from' => 'return',
+)array (
+  'alipay_sign' => '11ce53cb82f1675c1dd5852fe4adacf9',
+  'alipay_str' => 'out_trade_no=0510223785&request_token=requestToken&result=success&trade_no=2015102200001000960060853841',
+  'key' => 'o7dnkgrzwg6m29tjaa7itsd72uhoukvp',
+  'local_sign' => '11ce53cb82f1675c1dd5852fe4adacf9',
+  'from' => 'return',
+)array (
+  'alipay_sign' => '9f6c31c02438c6361f6b0517fb2c1497',
+  'alipay_str' => 'out_trade_no=1310225674&request_token=requestToken&result=success&trade_no=2015102200001000960060854791',
+  'key' => 'o7dnkgrzwg6m29tjaa7itsd72uhoukvp',
+  'local_sign' => '9f6c31c02438c6361f6b0517fb2c1497',
+  'from' => 'return',
+)array (
+  'alipay_sign' => '5f99f7b2c4f42426a5d95b26ec3ba131',
+  'alipay_str' => 'out_trade_no=0510288379&request_token=requestToken&result=success&trade_no=2015102800001000440071410367',
+  'key' => 'o7dnkgrzwg6m29tjaa7itsd72uhoukvp',
+  'local_sign' => '5f99f7b2c4f42426a5d95b26ec3ba131',
+  'from' => 'return',
+)

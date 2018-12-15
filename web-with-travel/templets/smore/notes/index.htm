@@ -1,0 +1,219 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{sline:field.seotitle/}-{sline:global.cfg_webname/}</title>
+    {sline:field.seokeyword/}
+    {sline:field.seodescription/}
+    <meta name="author" content="{sline:global.cfg_webname/}"/>
+    {sline:php}Helper_Archive::getCss('base.css');{/sline:php}
+    <link href="/templets/smore/notes/css/user_yj.css" rel="stylesheet" media="screen" type="text/css" />
+    {sline:php}Helper_Archive::getScript('jquery-1.8.3.min.js,common.js,ajax.member.search.js,line.js');{/sline:php}
+</head>
+
+<body>
+{sline:gettemplet pagename='header'/}
+<!-- 导航结束 -->
+
+<div class="big bgcolor_pa20">
+    <div class="yj_top_fb">
+        <a href="/notes/write.php">发表新游记</a>
+    </div>
+</div>
+
+
+<div class="big">
+<div class="width_1210">
+
+
+
+<div class="user_yj_con">
+
+<div class="slide_lm">
+
+    <div class="lm_tj">
+        <h3><strong>{sline:field.total/}</strong>篇游记攻略</h3>
+        <span>讲述精彩旅行故事</span>
+    </div>
+
+    <div class="user_ph">
+        <h3><strong>达人排行榜</strong>看旅游达人分享经历</h3>
+        <div class="ph_list">
+            <ul>
+                {sline:vlist name='super'}
+                <li>
+                    <strong class="pic"><i class="[field:global.step runphp="'yes']
+                      switch (@me){
+                          case 1:
+                              @me='bgico_f5';
+                              break;
+                          case 2:
+                              @me='bgico_f6';
+                              break;
+                          case 3:
+                              @me='bgico_fb';
+                              break;
+                          default:
+                             @me='bgico_fa';
+                        }
+                    [/field:global.step]">[field:global.step/]</i><img src="[field:litpic runphp='yes']if(empty(@me))@me='/templets/smore/notes/images/member_nopic.png';[/field:litpic]" width="56" height="56"/></strong>
+                    <p>
+                        <span class="name">[field:nickname/]</span>
+                        <span class="js">[field:remarks/]</span>
+                    </p>
+                </li>
+                {/sline:vlist}
+            </ul>
+        </div>
+    </div>
+    <!--达人排行榜-->
+
+    <div class="youji_ph">
+        <h3><strong>热门攻略排行</strong>看旅游达人分享经历</h3>
+
+        <div class="ph_list">
+            <ul>
+                {sline:vlist name='hot'}
+                <li>
+                    <strong class="num[field:global.step/]">[field:global.step/]</strong>
+
+                    <p>
+                        <span class="name">[field:title/]</span>
+                        <span class="js">[field:descript/]</span>
+                    </p>
+                </li>
+                {/sline:vlist}
+            </ul>
+        </div>
+    </div>
+    <!--热门攻略排行-->
+
+    <div class="new_ph">
+        <h3><strong>最新攻略</strong>看旅游达人分享经历</h3>
+
+        <div class="ph_list">
+            {sline:vlist name='new'}
+            <dl>
+                <dt><img src="[field:litpic runphp='yes']if(empty(@me))@me='/templets/smore/notes/images/member_nopic.png';[/field:litpic]"  width="48" height="48"/></dt>
+                <dd>
+                    <a href="/notes/show_[field:id/].html">[field:title/]</a>
+                    <p>[field:descript/]</p>
+                    <span>[field:updatetime function=date('Y-m-d',@me)/]</span>
+                </dd>
+            </dl>
+            {/sline:vlist}
+        </div>
+    </div>
+    <!--最新攻略-->
+
+</div>
+
+<div class="main_con">
+
+<div class="dj_hot_box">
+    <div class="dj_tit">
+        <h3>本季热门</h3>
+        <span>看旅游达人分享经历</span>
+
+        <p>
+            {sline:getdest flag='hot' row='3'}
+            <a href="[field:url/]">[field:title/]</a>
+            {/sline:getdest}
+            <a href="/destination/" class="more">更多&gt;&gt;</a>
+        </p>
+    </div>
+    <div class="dj_con">
+        <ul class="top_list">
+            {sline:vlist name='seasonRow3'}
+            <li class="[field:global.step runphp='yes']@me=@me%3==0?mr_0:'';[/field:global.step]">
+                <i><img class="fl" src="[field:memberpic runphp='yes']if(empty(@me))@me='/templets/smore/notes/images/member_nopic.png';[/field:memberpic]" width="56" height="56"/></i>
+                <a class="fl" href="/notes/show_[field:id/].html"><img class="fl" src="[field:litpic/]"  width="280"
+                                            height="175"/></a>
+
+                <p class="tit"><a href="/notes/show_[field:id/].html">[field:title/]</a></p>
+
+                <p class="txt">[field:description/]</p>
+
+                <p class="msg">
+                    <span class="name">[field:nickname/]</span>
+                    <span class="time">[field:modtime function=date('Y-m-d',@me)/]</span>
+                </p>
+            </li>
+            {/sline:vlist}
+        </ul>
+        <ul class="bom_list">
+            {sline:vlist name='seasonRow6'}
+            <li class="[field:global.step runphp='yes']@me=@me%2==0?mr_0:'';[/field:global.step]">
+                <a class="fl" href="/notes/show_[field:id/].html"><img class="fl" src="[field:litpic/]"  width="140"
+                                            height="115"/></a>
+
+                <div class="box_t">
+                    <a class="tit" href="/notes/show_[field:id/].html">[field:title/]</a>
+
+                    <p class="txt">[field:description/]</p>
+
+                    <p class="msg">
+                        <span class="name"><img class="fl" src="[field:memberpic runphp='yes']if(empty(@me))@me='/templets/smore/notes/images/member_nopic.png';[/field:memberpic]"  width="26"
+                                                height="26"/>[field:nickname/]</span>
+                        <span class="time">[field:modtime function=date('Y-m-d',@me)/]</span>
+                    </p>
+                </div>
+            </li>
+            {/sline:vlist}
+        </ul>
+    </div>
+</div>
+<!--本季热门-->
+
+<div class="dr_hot_box">
+    <div class="dr_tit">
+        <h3>达人攻略</h3>
+        <span>看旅游达人分享经历</span>
+
+        <p>
+            {sline:getdest flag='hot' row='3'}
+            <a href="[field:url/]">[field:title/]</a>
+            {/sline:getdest}
+            <a href="/destination/" class="more">更多&gt;&gt;</a>
+        </p>
+    </div>
+    <div class="dt_con">
+        <ul id="content">
+        </ul>
+    </div>
+    <div class="list_page" id="page">
+        {sline:pagelist isstatic='2'/}
+    </div>
+</div>
+<!--达人攻略-->
+
+</div>
+
+</div>
+
+</div>
+</div>
+{sline:gettemplet pagename='footer'/}
+<input type="hidden" id="currentpage" value="1"/>
+</body>
+<script type="text/javascript">
+    $(function(){
+        //查询通用配置
+        var config={
+            pageSize:6,
+            ajaxUrl:'notes/ajax.php',
+            dopost:'daren_notes'
+
+        };
+        $.AjaxSearch(
+                config,
+                function(data){
+
+                    $("#content").html(data.list);
+                    $("#page").html(data.pageinfo);
+                }
+        );
+
+    })
+</script>
+</html>

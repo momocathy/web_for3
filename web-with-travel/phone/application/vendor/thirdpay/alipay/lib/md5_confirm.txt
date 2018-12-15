@@ -1,0 +1,91 @@
+array (
+  'alipay_sign' => 'cb754563b79becd6c530699417d938ef',
+  'local_sign' => 'cb754563b79becd6c530699417d938ef',
+  'issign' => 1,
+  'from' => 'notify',
+)array (
+  'alipay_sign' => '69cd6c8f42bf1831d1b94a7a9c23103c',
+  'local_sign' => '69cd6c8f42bf1831d1b94a7a9c23103c',
+  'issign' => 1,
+  'from' => 'notify',
+)array (
+  'alipay_sign' => 'edf6ae6fa6d3e1b2a43307790107e252',
+  'local_sign' => 'edf6ae6fa6d3e1b2a43307790107e252',
+  'issign' => 1,
+  'from' => 'notify',
+)array (
+  'alipay_sign' => '4bca297564118a2e4ba15430ac3464cf',
+  'local_sign' => '4bca297564118a2e4ba15430ac3464cf',
+  'issign' => 1,
+  'from' => 'notify',
+)array (
+  'alipay_sign' => 'a0cbf03834f039a6ebed1313c3662607',
+  'local_sign' => 'a0cbf03834f039a6ebed1313c3662607',
+  'issign' => 1,
+  'from' => 'return',
+)array (
+  'alipay_sign' => '78695dfe9ca7b5112c4416cb072206eb',
+  'local_sign' => '78695dfe9ca7b5112c4416cb072206eb',
+  'issign' => 1,
+  'from' => 'notify',
+)array (
+  'alipay_sign' => '8a8a80980ed9a784b2738e4365cdbf4b',
+  'local_sign' => '8a8a80980ed9a784b2738e4365cdbf4b',
+  'issign' => 1,
+  'from' => 'notify',
+)array (
+  'alipay_sign' => 'a031f7e1efaa75b8bf34aeb6a580dbef',
+  'local_sign' => 'a031f7e1efaa75b8bf34aeb6a580dbef',
+  'issign' => 1,
+  'from' => 'notify',
+)array (
+  'alipay_sign' => '5b7c339642cd7a949ce1a68d7540353a',
+  'local_sign' => '5b7c339642cd7a949ce1a68d7540353a',
+  'issign' => 1,
+  'from' => 'notify',
+)array (
+  'alipay_sign' => '03ad34a91bdc5ffceabdfe994d5e5a34',
+  'local_sign' => '03ad34a91bdc5ffceabdfe994d5e5a34',
+  'issign' => 1,
+  'from' => 'notify',
+)array (
+  'alipay_sign' => '675f2eb5daab12cee8ae2bc27f9471e1',
+  'local_sign' => '675f2eb5daab12cee8ae2bc27f9471e1',
+  'issign' => 1,
+  'from' => 'notify',
+)array (
+  'alipay_sign' => '379525e0012624a1081147fd6005a9f9',
+  'local_sign' => '379525e0012624a1081147fd6005a9f9',
+  'issign' => 1,
+  'from' => 'notify',
+)array (
+  'alipay_sign' => 'ad84d4196eb15be11d6fc9fd6ad1e314',
+  'local_sign' => 'ad84d4196eb15be11d6fc9fd6ad1e314',
+  'issign' => 1,
+  'from' => 'notify',
+)array (
+  'alipay_sign' => '64bbe4203716782eed903517d9162a7c',
+  'local_sign' => '64bbe4203716782eed903517d9162a7c',
+  'issign' => 1,
+  'from' => 'notify',
+)array (
+  'alipay_sign' => '8593ec838e6eac70829ec21388870053',
+  'local_sign' => '8593ec838e6eac70829ec21388870053',
+  'issign' => 1,
+  'from' => 'return',
+)array (
+  'alipay_sign' => '8d61c01c4371a9e83ef5f6142b7912e4',
+  'local_sign' => '8d61c01c4371a9e83ef5f6142b7912e4',
+  'issign' => 1,
+  'from' => 'notify',
+)array (
+  'alipay_sign' => '5f29f5e6d9c864b5f439d11b92d2aa73',
+  'local_sign' => '5f29f5e6d9c864b5f439d11b92d2aa73',
+  'issign' => 1,
+  'from' => 'notify',
+)array (
+  'alipay_sign' => 'de76f3d3a815c6de8c6dea4f3d4ac8a1',
+  'local_sign' => 'de76f3d3a815c6de8c6dea4f3d4ac8a1',
+  'issign' => 1,
+  'from' => 'notify',
+)

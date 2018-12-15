@@ -1,0 +1,741 @@
+DROP TABLE IF EXISTS `sline_admin`;
+CREATE TABLE `sline_admin` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) DEFAULT NULL COMMENT '登陆用户名',
+  `password` varchar(255) DEFAULT NULL COMMENT '密码',
+  `logintime` int(10) unsigned DEFAULT NULL COMMENT '上次登陆时间',
+  `loginip` varchar(255) DEFAULT NULL COMMENT '登陆ip',
+  `roleid` int(6) DEFAULT NULL COMMENT '角色id',
+  `realname` varchar(30) DEFAULT NULL COMMENT '真实姓名,暂时不用.',
+  `litpic` varchar(255) DEFAULT NULL COMMENT '用户头像',
+  `beizu` varchar(500) DEFAULT NULL COMMENT '备注信息',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='管理员表';
+DROP TABLE IF EXISTS `sline_advertise_5x`;
+CREATE TABLE `sline_advertise_5x` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `webid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '站点id',
+  `flag` enum('1','2') NOT NULL DEFAULT '1' COMMENT '广告类别 1:单图 2:多图',
+  `custom_label` varchar(255) DEFAULT NULL COMMENT '自定义标示',
+  `kindlist` varchar(255) DEFAULT NULL COMMENT '目的地属性',
+  `adsrc` text NOT NULL COMMENT '广告图片地址',
+  `adlink` text COMMENT '广告链接',
+  `adname` tinytext COMMENT '广告名称',
+  `adorder` varchar(255) DEFAULT NULL COMMENT '广告排序',
+  `is_system` enum('0','1') DEFAULT '0' COMMENT '系统广告 1：是  0：不是',
+  `is_show` enum('0','1') DEFAULT '0' COMMENT '是否显示 0：隐藏 1：显示',
+  `is_pc` enum('0','1') NOT NULL DEFAULT '1' COMMENT '所属平台 1：pc版 0:手机版',
+  `prefix` varchar(100) NOT NULL DEFAULT '' COMMENT '广告位前缀',
+  `number` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '广告序列数',
+  `modtime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `position` varchar(255) DEFAULT NULL COMMENT '广告位置',
+  `size` varchar(50) DEFAULT NULL COMMENT '广告尺寸',
+  `remark` tinytext COMMENT '备注：广告位图片是尺寸',
+  `finaldestid` varchar(255) DEFAULT NULL COMMENT '最终目的地',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8 COMMENT='5.1版本广告策略';
+DROP TABLE IF EXISTS `sline_allorderlist`;
+CREATE TABLE `sline_allorderlist` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `webid` int(2) unsigned DEFAULT '0',
+  `typeid` int(1) unsigned DEFAULT NULL COMMENT '栏目类型',
+  `aid` int(11) DEFAULT NULL COMMENT '文章的aid',
+  `classid` int(11) DEFAULT NULL COMMENT '分类id',
+  `displayorder` int(11) unsigned DEFAULT '9999' COMMENT '排序ID',
+  `istejia` int(1) unsigned DEFAULT '0' COMMENT '特惠',
+  `isding` int(1) unsigned DEFAULT '0' COMMENT '是否置顶',
+  `isjian` int(1) unsigned DEFAULT '0' COMMENT '是否推荐',
+  PRIMARY KEY (`id`),
+  KEY `typeid` (`typeid`),
+  KEY `classid` (`classid`),
+  KEY `aid` (`aid`),
+  KEY `displayorder` (`displayorder`),
+  KEY `IDX_AID_TYPEID` (`aid`,`typeid`) USING BTREE,
+  KEY `IDX_AI_WE_TY` (`aid`,`webid`,`typeid`) USING BTREE,
+  KEY `IDX_TYPEID_AID` (`typeid`,`aid`) USING BTREE,
+  KEY `IDX_TY_AI_WE` (`typeid`,`aid`,`webid`) USING BTREE,
+  KEY `IDX_typeid_aid_displayorder` (`typeid`,`aid`,`displayorder`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='全局排序表';
+DROP TABLE IF EXISTS `sline_app`;
+CREATE TABLE `sline_app` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '应用编号',
+  `number` varchar(50) NOT NULL COMMENT '产品序列号',
+  `productcode` varchar(50) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT '1' COMMENT '是否启用',
+  `is_upgrade` tinyint(1) DEFAULT '1' COMMENT '应用是否启用升级',
+  `system_part_type` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='应用安装信息表\r\n';
+DROP TABLE IF EXISTS `sline_comment`;
+CREATE TABLE `sline_comment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `typeid` int(2) unsigned DEFAULT NULL COMMENT '栏目类型',
+  `orderid` int(11) unsigned DEFAULT NULL COMMENT '订单id',
+  `articleid` varchar(50) DEFAULT NULL COMMENT '文章产品自增id',
+  `memberid` int(11) unsigned DEFAULT NULL COMMENT '会员id',
+  `pid` int(11) unsigned DEFAULT '0' COMMENT '是否是第一级评论',
+  `content` mediumtext COMMENT '评论内容',
+  `dockid` int(10) unsigned DEFAULT NULL COMMENT '停靠id',
+  `score1` float(2,1) DEFAULT '0.0' COMMENT '评分1',
+  `score2` float(2,1) DEFAULT NULL COMMENT '评分2',
+  `score3` float(2,1) DEFAULT NULL COMMENT '评分3',
+  `score4` float(2,1) DEFAULT '0.0' COMMENT '评分4',
+  `isshow` int(1) DEFAULT '0' COMMENT '前台是否显示',
+  `addtime` int(10) unsigned DEFAULT NULL COMMENT '评论时间',
+  `level` int(1) unsigned DEFAULT '0' COMMENT '1:好评 2:中评 3 差评',
+  `kindlist` varchar(255) DEFAULT NULL COMMENT '所属目的地',
+  `piclist` text COMMENT '评论图片列表',
+  `vr_nickname` varchar(255) DEFAULT NULL COMMENT '虚拟会员昵称',
+  `vr_headpic` varchar(255) DEFAULT NULL COMMENT '虚拟会员头像',
+  `vr_jifencomment` int(11) DEFAULT '0' COMMENT '虚拟评论送积分',
+  `vr_grade` int(11) DEFAULT '0' COMMENT '虚拟会员等级',
+  PRIMARY KEY (`id`),
+  KEY `IDX_TYPEID_ARTICLEID` (`typeid`,`articleid`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='评论表';
+DROP TABLE IF EXISTS `sline_currency`;
+CREATE TABLE `sline_currency` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `countryname` varchar(100) DEFAULT NULL,
+  `chinesename` varchar(100) DEFAULT NULL COMMENT '国家中文名',
+  `englishname` varchar(100) DEFAULT NULL COMMENT '国家英文名',
+  `code` char(20) DEFAULT NULL COMMENT '货币代码,一般是三个字母',
+  `symbol` varchar(10) DEFAULT NULL COMMENT '货币符号',
+  `isopen` tinyint(1) DEFAULT '0' COMMENT '是否启用',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `code_unique` (`code`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='汇率表';
+DROP TABLE IF EXISTS `sline_currency_rate`;
+CREATE TABLE `sline_currency_rate` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `currencycode1` char(20) DEFAULT NULL,
+  `currencycode2` char(20) DEFAULT NULL,
+  `ratio1` float(255,4) DEFAULT '1.0000',
+  `ratio2` float(255,4) DEFAULT '1.0000',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `code_union_unique` (`currencycode1`,`currencycode2`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='汇率比率';
+DROP TABLE IF EXISTS `sline_destinations`;
+CREATE TABLE `sline_destinations` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `kindname` varchar(255) DEFAULT NULL COMMENT '分类名称',
+  `pid` int(11) DEFAULT '0' COMMENT '本表从属关系父id',
+  `seotitle` varchar(255) DEFAULT NULL COMMENT '优化标题',
+  `keyword` varchar(255) DEFAULT NULL COMMENT '关键词',
+  `description` varchar(255) DEFAULT NULL COMMENT '描述',
+  `tagword` varchar(255) DEFAULT NULL COMMENT 'tag词',
+  `jieshao` text COMMENT '目的地介绍',
+  `kindtype` int(1) unsigned DEFAULT NULL COMMENT '1:栏目分类 2:其它分类',
+  `isopen` int(1) unsigned DEFAULT '1' COMMENT '是否开启',
+  `isfinishseo` int(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否完成优化设置',
+  `displayorder` int(4) unsigned DEFAULT '9999' COMMENT '排序',
+  `isnav` int(1) unsigned DEFAULT '0' COMMENT '是否开启导航',
+  `templetpath` varchar(255) DEFAULT NULL COMMENT '目的地模板',
+  `ishot` int(1) unsigned DEFAULT '0' COMMENT '是否热门',
+  `litpic` varchar(255) DEFAULT NULL COMMENT '封面图',
+  `piclist` text COMMENT '目的地图片',
+  `istopnav` tinyint(3) DEFAULT '0' COMMENT '是否开启智能导航',
+  `pinyin` varchar(255) DEFAULT NULL COMMENT '拼音',
+  `templet` varchar(255) DEFAULT NULL COMMENT '模板路径',
+  `iswebsite` int(1) DEFAULT '0' COMMENT '是否开启子站',
+  `weburl` varchar(50) DEFAULT NULL COMMENT '子站域名',
+  `webroot` varchar(50) DEFAULT NULL COMMENT '子站目录',
+  `webprefix` varchar(50) DEFAULT NULL COMMENT '子站主机头',
+  `opentypeids` varchar(255) DEFAULT NULL COMMENT '针对其它栏目此目的地是否开启',
+  PRIMARY KEY (`id`),
+  KEY `IDX_PINYIN` (`pinyin`) USING BTREE,
+  KEY `IDX_PID` (`pid`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8 COMMENT='目的地总表';
+DROP TABLE IF EXISTS `sline_email_msg`;
+CREATE TABLE `sline_email_msg` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `msgtype` varchar(255) DEFAULT NULL COMMENT '消息类型',
+  `msg` varchar(255) DEFAULT NULL COMMENT '消息',
+  `isopen` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否开启',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8 COMMENT='邮件信息配置表';
+DROP TABLE IF EXISTS `sline_extend_field`;
+CREATE TABLE `sline_extend_field` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `typeid` int(11) NOT NULL DEFAULT '0' COMMENT '类别',
+  `fieldname` varchar(50) NOT NULL DEFAULT '0' COMMENT '字段名称',
+  `fieldtype` varchar(50) NOT NULL DEFAULT '0' COMMENT '字段类型',
+  `description` varchar(50) NOT NULL DEFAULT '0' COMMENT '字段描述',
+  `tips` varchar(255) NOT NULL DEFAULT '0' COMMENT '填写描述',
+  `isopen` int(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否可用',
+  `addtime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
+  `modtime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '修改时间',
+  `isunique` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '是否唯一',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='产品字段扩展表';
+DROP TABLE IF EXISTS `sline_freekefu`;
+CREATE TABLE `sline_freekefu` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+  `phone` varchar(50) DEFAULT NULL COMMENT '客户电话',
+  `addtime` int(11) DEFAULT NULL COMMENT '提交时间',
+  `ip` varchar(255) DEFAULT NULL COMMENT '客户IP',
+  `status` tinyint(1) DEFAULT '0' COMMENT '处理状态:0未处理，1已处理',
+  `description` varchar(255) DEFAULT NULL COMMENT '处理说明',
+  `finishtime` int(11) DEFAULT NULL COMMENT '处理完成时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='免费通话表';
+DROP TABLE IF EXISTS `sline_help`;
+CREATE TABLE `sline_help` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `webid` int(2) unsigned DEFAULT '1' COMMENT '弃用',
+  `aid` int(11) unsigned DEFAULT NULL COMMENT '前台显示id',
+  `title` varchar(255) DEFAULT NULL COMMENT '帮助标题',
+  `kindid` int(2) unsigned DEFAULT NULL COMMENT '帮助所属分类',
+  `body` longtext COMMENT '帮助详细内容',
+  `displayorder` int(5) DEFAULT NULL COMMENT '排序',
+  `addtime` int(10) unsigned DEFAULT NULL COMMENT '添加时间',
+  `modtime` int(10) unsigned DEFAULT NULL COMMENT '修改时间',
+  `type_id` varchar(255) DEFAULT NULL COMMENT '显示到',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='帮助信息表';
+DROP TABLE IF EXISTS `sline_help_kind`;
+CREATE TABLE `sline_help_kind` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `webid` int(2) DEFAULT NULL COMMENT '弃用',
+  `aid` int(11) unsigned DEFAULT NULL COMMENT '弃用',
+  `kindname` varchar(255) DEFAULT NULL COMMENT '帮助分类名称',
+  `litpic` varchar(255) DEFAULT NULL COMMENT '标识图片',
+  `displayorder` int(11) unsigned DEFAULT NULL COMMENT '显示顺序',
+  `isopen` int(1) unsigned DEFAULT '1' COMMENT '是否启用',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='帮助类型分类表';
+DROP TABLE IF EXISTS `sline_icon`;
+CREATE TABLE `sline_icon` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `webid` int(11) DEFAULT NULL COMMENT '弃用.',
+  `kind` char(50) NOT NULL COMMENT '名称',
+  `picurl` varchar(255) NOT NULL COMMENT '图片地址',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='图标表';
+DROP TABLE IF EXISTS `sline_image`;
+CREATE TABLE `sline_image` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `group_id` int(11) unsigned NOT NULL DEFAULT '1' COMMENT '分组ID',
+  `image_name` varchar(60) DEFAULT NULL COMMENT '图片名称',
+  `url` varchar(255) NOT NULL DEFAULT '' COMMENT '图片路径',
+  `size` int(11) NOT NULL DEFAULT '0' COMMENT '大小',
+  `is_hidden` enum('0','1') NOT NULL DEFAULT '0' COMMENT '是否显示',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `url` (`url`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='图片库分组';
+DROP TABLE IF EXISTS `sline_jifen_price`;
+CREATE TABLE `sline_jifen_price` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL DEFAULT '' COMMENT '策略标题',
+  `label` varchar(255) NOT NULL DEFAULT '' COMMENT '调用标识',
+  `issystem` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0为自定义策略，1为系统策略',
+  `typeid` int(11) NOT NULL DEFAULT '0' COMMENT '应用的产品类型id',
+  `expiration_type` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0-一直有效, 1-区间内有效, 2-截止前有效',
+  `starttime` int(11) NOT NULL DEFAULT '0' COMMENT '有效期开始时间',
+  `endtime` int(11) NOT NULL DEFAULT '0' COMMENT '有效期结束时间',
+  `toplimit` int(11) NOT NULL DEFAULT '0' COMMENT '使用积分上限',
+  `isopen` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否开启: 0-关闭，1-开启',
+  `addtime` int(11) NOT NULL DEFAULT '0' COMMENT '添加时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='积分抵现策略';
+DROP TABLE IF EXISTS `sline_jifen_record`;
+CREATE TABLE `sline_jifen_record` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `memberid` int(11) DEFAULT NULL COMMENT '会员ID',
+  `label` varchar(255) DEFAULT '' COMMENT '积分策略标识',
+  `jifen` int(255) DEFAULT '0' COMMENT '积分',
+  `addtime` int(255) DEFAULT NULL COMMENT '添加时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='积分操作记录(用于积分次数限制)';
+DROP TABLE IF EXISTS `sline_keyword`;
+CREATE TABLE `sline_keyword` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `typeid` int(11) DEFAULT NULL,
+  `title` char(255) DEFAULT NULL,
+  `linkurl` varchar(255) NOT NULL,
+  `webid` int(3) DEFAULT '1',
+  `keyword` varchar(255) DEFAULT NULL COMMENT '具体长尾词语',
+  `aid` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='关键词信息表';
+DROP TABLE IF EXISTS `sline_member_order_tourer`;
+CREATE TABLE `sline_member_order_tourer` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `orderid` varchar(255) DEFAULT '0' COMMENT '订单编号',
+  `tourername` varchar(255) DEFAULT '0' COMMENT '游客姓名',
+  `sex` enum('男','女') DEFAULT '男',
+  `cardtype` varchar(255) DEFAULT '0' COMMENT '证件类型',
+  `cardnumber` varchar(255) DEFAULT '0' COMMENT '证件号码',
+  `mobile` varchar(15) DEFAULT '0' COMMENT '手机',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单游客表';
+DROP TABLE IF EXISTS `sline_member_third`;
+CREATE TABLE `sline_member_third` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `mid` int(11) NOT NULL COMMENT '会员id',
+  `openid` varchar(255) NOT NULL COMMENT '第三方openid',
+  `from` varchar(100) NOT NULL COMMENT '第三方平台',
+  `nickname` varchar(100) DEFAULT NULL COMMENT '第三方昵称',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='会员第三方登陆信息表';
+DROP TABLE IF EXISTS `sline_menu`;
+CREATE TABLE `sline_menu` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID编号',
+  `pid` smallint(6) NOT NULL DEFAULT '0' COMMENT '父ID',
+  `title` varchar(255) DEFAULT NULL COMMENT '中文标题',
+  `entitle` varchar(255) NOT NULL COMMENT '英文标题',
+  `controller` varchar(60) DEFAULT NULL COMMENT '控制器',
+  `method` varchar(60) DEFAULT NULL COMMENT '方法',
+  `ico` varchar(255) DEFAULT NULL COMMENT '标题图标',
+  `displayorder` int(11) unsigned DEFAULT '0' COMMENT '排序',
+  `extraparam` varchar(255) DEFAULT NULL COMMENT '额外参数',
+  `extlink` tinyint(1) DEFAULT '0' COMMENT '外部链接',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `sline_menu_new`;
+CREATE TABLE `sline_menu_new` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID编号',
+  `pid` int(11) NOT NULL,
+  `level` tinyint(4) DEFAULT '1' COMMENT '节点深度',
+  `typeid` int(11) DEFAULT NULL COMMENT '分类ID*（即model_id）',
+  `title` varchar(60) DEFAULT NULL COMMENT '菜单名称',
+  `directory` varchar(60) DEFAULT NULL COMMENT '目录名称',
+  `controller` varchar(60) DEFAULT NULL COMMENT '控制器',
+  `method` varchar(60) DEFAULT NULL COMMENT '方法',
+  `datainfo` varchar(20) DEFAULT NULL COMMENT '产品数据信息（1、订单 2、咨询 3、评论）',
+  `isshow` tinyint(1) DEFAULT '1' COMMENT '菜单显示',
+  `displayorder` int(11) unsigned DEFAULT '9999' COMMENT '菜单排序',
+  `extparams` varchar(255) DEFAULT NULL COMMENT 'extlink:1外部链接地址，extlink:0标准扩展参数',
+  `extlink` tinyint(1) DEFAULT '0' COMMENT '外部链接',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=221 DEFAULT CHARSET=utf8 COMMENT='后台菜单信息表';
+DROP TABLE IF EXISTS `sline_menu_quick`;
+CREATE TABLE `sline_menu_quick` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID编号',
+  `admin_id` int(11) NOT NULL COMMENT '管理员ID',
+  `menu_id` varchar(60) NOT NULL COMMENT '菜单编号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='快捷菜单表';
+DROP TABLE IF EXISTS `sline_model`;
+CREATE TABLE `sline_model` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '模型id',
+  `modulename` varchar(255) DEFAULT NULL COMMENT '模块名称',
+  `pinyin` varchar(255) DEFAULT NULL COMMENT '拼音标识',
+  `correct` varchar(255) DEFAULT NULL COMMENT '修正pinyin字段',
+  `maintable` varchar(255) DEFAULT NULL COMMENT '主表',
+  `addtable` varchar(255) DEFAULT NULL COMMENT '附加表',
+  `attrtable` varchar(255) DEFAULT 'model_attr' COMMENT '属性表',
+  `issystem` int(1) DEFAULT '0' COMMENT '是否系统',
+  `isopen` int(1) DEFAULT '1' COMMENT '是否开启',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `pinyin` (`pinyin`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='思途模型表';
+DROP TABLE IF EXISTS `sline_model_archive`;
+CREATE TABLE `sline_model_archive` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `webid` int(11) NOT NULL DEFAULT '1' COMMENT '站点ID',
+  `aid` int(11) unsigned DEFAULT NULL COMMENT '前台访问aid',
+  `typeid` int(11) unsigned DEFAULT NULL COMMENT '模型id',
+  `title` varchar(255) DEFAULT NULL COMMENT '标题',
+  `seotitle` varchar(255) DEFAULT NULL COMMENT '优化标题',
+  `content` longtext COMMENT '文章内容',
+  `piclist` text COMMENT '图片列表',
+  `price` varchar(255) DEFAULT '0' COMMENT '价格',
+  `price_date` int(11) DEFAULT NULL COMMENT '最新价格时间',
+  `litpic` varchar(255) DEFAULT NULL COMMENT '封面图片',
+  `addtime` int(10) unsigned DEFAULT NULL COMMENT '添加时间',
+  `modtime` int(10) unsigned DEFAULT NULL COMMENT '更新时间',
+  `shownum` int(11) DEFAULT NULL COMMENT '浏览次数',
+  `tagword` varchar(50) DEFAULT NULL COMMENT 'tag词',
+  `keyword` varchar(50) DEFAULT NULL COMMENT '关键词',
+  `description` varchar(500) DEFAULT NULL COMMENT '描述',
+  `kindlist` varchar(255) DEFAULT NULL COMMENT '目的地id',
+  `themelist` varchar(255) DEFAULT NULL COMMENT '专题id',
+  `attrid` varchar(255) DEFAULT NULL COMMENT '属性id',
+  `ishidden` tinyint(4) DEFAULT '0' COMMENT '是否隐藏',
+  `iconlist` varchar(255) DEFAULT NULL COMMENT '图标id',
+  `templet` varchar(255) DEFAULT NULL COMMENT '使用模板',
+  `satisfyscore` int(11) DEFAULT NULL COMMENT '满意度',
+  `sellpoint` varchar(255) DEFAULT NULL COMMENT '卖点',
+  `supplierlist` varchar(255) DEFAULT NULL COMMENT '供应商',
+  `finaldestid` int(11) DEFAULT NULL COMMENT '最终目的地',
+  `jifenbook_id` int(11) NOT NULL DEFAULT '0' COMMENT '预订送积分策略ID',
+  `jifentprice_id` int(11) NOT NULL DEFAULT '0' COMMENT '积分抵现策略ID',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='扩展模块信息表';
+DROP TABLE IF EXISTS `sline_model_attr`;
+CREATE TABLE `sline_model_attr` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `webid` int(11) NOT NULL DEFAULT '0' COMMENT '站点id',
+  `typeid` int(11) NOT NULL COMMENT '模型id',
+  `attrname` varchar(255) DEFAULT NULL,
+  `displayorder` int(4) unsigned DEFAULT '9999',
+  `isopen` int(11) unsigned DEFAULT '0',
+  `issystem` int(11) unsigned DEFAULT '0',
+  `pid` int(10) DEFAULT NULL,
+  `destid` varchar(255) DEFAULT NULL,
+  `litpic` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='扩展模块属性表';
+DROP TABLE IF EXISTS `sline_model_content`;
+CREATE TABLE `sline_model_content` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `webid` int(3) DEFAULT '1' COMMENT '弃用',
+  `typeid` int(4) DEFAULT '0' COMMENT '栏目id',
+  `columnname` varchar(30) DEFAULT NULL COMMENT '在线路中使用的字段名称',
+  `chinesename` varchar(100) DEFAULT NULL COMMENT '中文显示名称',
+  `displayorder` int(3) DEFAULT '0' COMMENT '显示顺序',
+  `issystem` int(1) DEFAULT NULL COMMENT '是否系统属性',
+  `isopen` int(1) DEFAULT NULL COMMENT '是否使用1，0',
+  `isline` int(1) DEFAULT '0' COMMENT '弃用',
+  `isrealfield` tinyint(1) DEFAULT '0' COMMENT '是否是真实字段',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='扩展模块内容分类表';
+DROP TABLE IF EXISTS `sline_model_suit`;
+CREATE TABLE `sline_model_suit` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `productid` int(11) NOT NULL COMMENT '产品id',
+  `suitname` varchar(255) DEFAULT NULL COMMENT '套餐名称',
+  `description` text COMMENT '描述',
+  `displayorder` int(11) DEFAULT '9999' COMMENT '排序',
+  `jifenbook` int(11) DEFAULT '0' COMMENT '预订送积分',
+  `jifentprice` int(11) DEFAULT '0' COMMENT '积分抵现金',
+  `jifencomment` int(11) DEFAULT '0' COMMENT '评论送积分',
+  `paytype` tinyint(1) unsigned DEFAULT '1' COMMENT '支付类型',
+  `number` int(11) DEFAULT '-1' COMMENT '库存',
+  `dingjin` varchar(255) DEFAULT NULL COMMENT '定金',
+  `sellprice` varchar(255) DEFAULT NULL COMMENT '市场价格',
+  `ourprice` varchar(255) DEFAULT NULL COMMENT '本站价格',
+  `lastoffer` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='扩展模型套餐表';
+DROP TABLE IF EXISTS `sline_model_suit_price`;
+CREATE TABLE `sline_model_suit_price` (
+  `productid` int(11) NOT NULL COMMENT '产品id',
+  `suitid` int(11) NOT NULL DEFAULT '0' COMMENT '套餐id',
+  `day` int(11) NOT NULL DEFAULT '0' COMMENT '日期',
+  `profit` int(11) DEFAULT NULL COMMENT '利润',
+  `basicprice` int(11) DEFAULT NULL COMMENT '成本价',
+  `price` int(11) DEFAULT NULL COMMENT '价格',
+  `description` varchar(255) DEFAULT NULL COMMENT '描述',
+  `number` int(11) DEFAULT NULL COMMENT '库存',
+  UNIQUE KEY `suitid` (`suitid`,`day`),
+  KEY `IDX_productid` (`productid`) USING BTREE,
+  KEY `IDX_suitid` (`suitid`) USING BTREE,
+  KEY `IDX_day` (`day`) USING BTREE,
+  KEY `IDX_product_suitid` (`productid`,`suitid`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='通用产品报价';
+DROP TABLE IF EXISTS `sline_question`;
+CREATE TABLE `sline_question` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `typeid` int(2) unsigned DEFAULT NULL COMMENT '栏目类型',
+  `productid` int(11) DEFAULT NULL COMMENT '文章所在表的id',
+  `content` text COMMENT '提问内容',
+  `replycontent` mediumtext COMMENT '回复内容',
+  `replytime` int(10) unsigned DEFAULT NULL COMMENT '回复日期',
+  `nickname` varchar(25) DEFAULT '' COMMENT '评论人昵称',
+  `ip` varchar(23) DEFAULT NULL COMMENT '评论人ip地址',
+  `status` int(2) unsigned DEFAULT '0' COMMENT '回复状态',
+  `memberid` int(11) unsigned DEFAULT NULL COMMENT '会员id',
+  `addtime` int(10) unsigned DEFAULT NULL COMMENT '添加时间',
+  `kindlist` varchar(255) DEFAULT NULL COMMENT '所属目的地',
+  `qq` varchar(255) DEFAULT NULL COMMENT 'QQ',
+  `webid` int(11) DEFAULT '0' COMMENT '弃用',
+  `phone` varchar(255) DEFAULT NULL COMMENT '电话',
+  `weixin` varchar(255) DEFAULT NULL COMMENT '微信',
+  `email` varchar(255) DEFAULT NULL COMMENT '邮箱',
+  `title` varchar(255) DEFAULT NULL COMMENT '提问标题',
+  `questype` tinyint(1) DEFAULT '0' COMMENT '问题类型，0为产品相关问答，1为一般问答',
+  PRIMARY KEY (`id`),
+  KEY `IDX_productid` (`productid`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='问答表';
+DROP TABLE IF EXISTS `sline_role`;
+CREATE TABLE `sline_role` (
+  `roleid` int(11) NOT NULL AUTO_INCREMENT COMMENT '角色id',
+  `rolename` varchar(20) DEFAULT NULL COMMENT '角色名称',
+  `description` varchar(100) DEFAULT NULL COMMENT '描述',
+  `masterid` int(11) DEFAULT NULL,
+  `createdate` int(11) DEFAULT NULL,
+  `isoptn` tinyint(4) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`roleid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='后台管理员角色表';
+DROP TABLE IF EXISTS `sline_role_module`;
+CREATE TABLE `sline_role_module` (
+  `roleid` int(11) NOT NULL COMMENT '角色id',
+  `moduleid` char(15) DEFAULT NULL COMMENT '模块名称',
+  `slook` tinyint(1) NOT NULL DEFAULT '0' COMMENT '查看权限',
+  `smodify` tinyint(1) NOT NULL DEFAULT '0' COMMENT '修改权限',
+  `sadd` tinyint(1) NOT NULL DEFAULT '0' COMMENT '添加权限',
+  `sdelete` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除权限',
+  `sall` tinyint(1) NOT NULL DEFAULT '0' COMMENT '全部权限'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='后台模块权限表.';
+DROP TABLE IF EXISTS `sline_role_right`;
+CREATE TABLE `sline_role_right` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `roleid` int(11) DEFAULT NULL COMMENT '角色id',
+  `menuid` int(11) DEFAULT NULL COMMENT '菜单id',
+  `right` tinyint(1) DEFAULT NULL COMMENT '权限/是否有权限查看菜单',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色权限表';
+DROP TABLE IF EXISTS `sline_search_keyword`;
+CREATE TABLE `sline_search_keyword` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `keyword` varchar(255) DEFAULT NULL COMMENT '关键词',
+  `keynumber` int(11) unsigned DEFAULT '1' COMMENT '搜索次数',
+  `displayorder` int(4) DEFAULT '9999' COMMENT '排序',
+  `isopen` int(1) DEFAULT '0' COMMENT '是否开启',
+  `addtime` int(10) DEFAULT '0' COMMENT '添加时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COMMENT='搜索词表';
+DROP TABLE IF EXISTS `sline_serverlist`;
+CREATE TABLE `sline_serverlist` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `webid` int(11) DEFAULT NULL,
+  `aid` int(11) unsigned DEFAULT NULL,
+  `servername` varchar(20) DEFAULT NULL COMMENT '名称',
+  `keywords` varchar(50) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `content` longtext COMMENT '详细内容',
+  `addtime` int(11) unsigned DEFAULT NULL,
+  `modtime` int(11) unsigned DEFAULT NULL,
+  `isdisplay` int(1) unsigned DEFAULT '1' COMMENT '是否显示',
+  `isauto` int(1) DEFAULT '0' COMMENT '是否默认分类',
+  `displayorder` int(5) DEFAULT '9999',
+  `sline_yqlj` int(5) DEFAULT NULL,
+  `mobileshow` int(1) DEFAULT '0' COMMENT '是否在手机上显示',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='副导航表';
+DROP TABLE IF EXISTS `sline_site_page`;
+CREATE TABLE `sline_site_page` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pid` varchar(255) DEFAULT NULL,
+  `kindname` varchar(255) DEFAULT NULL COMMENT '页面名称',
+  `pagename` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8 COMMENT='思途子站页面模块列表';
+DROP TABLE IF EXISTS `sline_site_page_config`;
+CREATE TABLE `sline_site_page_config` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `webid` int(11) unsigned DEFAULT NULL COMMENT '子站id',
+  `pageid` int(11) unsigned DEFAULT NULL COMMENT '页面id',
+  `path` varchar(255) DEFAULT NULL COMMENT '模板路径',
+  `isuse` tinyint(1) unsigned DEFAULT '0' COMMENT '是否使用',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='子站用户页面配置表';
+DROP TABLE IF EXISTS `sline_skin`;
+CREATE TABLE `sline_skin` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(50) NOT NULL COMMENT '色系',
+  `main_color` varchar(50) NOT NULL COMMENT '站点主背景色',
+  `icon_color` varchar(50) NOT NULL COMMENT '图标颜色',
+  `line_color` varchar(50) NOT NULL COMMENT '线条名称',
+  `font_color` varchar(50) NOT NULL COMMENT '字体颜色',
+  `font_hover_color` varchar(50) NOT NULL COMMENT '移入文字颜色',
+  `nav_color` varchar(50) NOT NULL COMMENT '导航条颜色',
+  `nav_hover_color` varchar(50) NOT NULL COMMENT '移入导航条颜色',
+  `footer_level_color` varchar(50) NOT NULL COMMENT '底部分栏颜色',
+  `usernav_color` varchar(50) NOT NULL COMMENT '自定义导航底色',
+  `is_system` int(1) NOT NULL COMMENT '是否系统预设',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='思途皮肤表';
+DROP TABLE IF EXISTS `sline_sms_msg`;
+CREATE TABLE `sline_sms_msg` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `msgtype` varchar(255) DEFAULT NULL COMMENT '消息类型',
+  `msg` varchar(255) DEFAULT NULL COMMENT '消息',
+  `isopen` int(1) unsigned DEFAULT '1' COMMENT '是否开启',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 COMMENT='短信信息配置表';
+DROP TABLE IF EXISTS `sline_sms_provider`;
+CREATE TABLE `sline_sms_provider` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL COMMENT '短信供应商名称',
+  `config_url` varchar(1000) NOT NULL COMMENT '短信接口配置地址',
+  `execute_file` varchar(1000) NOT NULL COMMENT '短信发送功能实现程序文件',
+  `execute_classname` varchar(1000) NOT NULL COMMENT '短信发送功能实现程序类名',
+  `isopen` int(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否开启',
+  `exdata` longtext COMMENT '短信接口配置扩展数据',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 COMMENT='短信信息配置表';
+DROP TABLE IF EXISTS `sline_startplace`;
+CREATE TABLE `sline_startplace` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `destid` int(11) DEFAULT NULL COMMENT '目的地ID',
+  `cityname` varchar(255) DEFAULT NULL COMMENT '出发城市',
+  `isdefault` int(1) unsigned DEFAULT '0' COMMENT '是否默认',
+  `isopen` int(1) unsigned DEFAULT '0' COMMENT '是否开启',
+  `displayorder` int(11) DEFAULT '9999' COMMENT '排序',
+  `domain` varchar(255) DEFAULT NULL COMMENT '域名',
+  `pid` int(8) NOT NULL COMMENT '弃用',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8 COMMENT='出发地表';
+DROP TABLE IF EXISTS `sline_supplier`;
+CREATE TABLE `sline_supplier` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `suppliername` varchar(255) DEFAULT NULL COMMENT '商户名称',
+  `qualification` longtext COMMENT '商户资质信息',
+  `logintime` int(10) DEFAULT NULL COMMENT '商户最后登陆时间',
+  `linkman` varchar(100) DEFAULT NULL COMMENT '联系人',
+  `email` varchar(200) DEFAULT NULL COMMENT 'email',
+  `province` varchar(50) DEFAULT NULL COMMENT '商户所在省份',
+  `city` varchar(50) DEFAULT NULL COMMENT '商户所在市',
+  `telephone` varchar(100) DEFAULT NULL COMMENT '联系电话',
+  `mobile` varchar(100) DEFAULT NULL COMMENT '手机',
+  `fax` varchar(50) DEFAULT NULL COMMENT '传真',
+  `address` varchar(255) DEFAULT NULL COMMENT '地址',
+  `litpic` varchar(255) DEFAULT NULL COMMENT '封面图片',
+  `qq` varchar(255) DEFAULT NULL COMMENT 'QQ号码',
+  `addtime` int(10) unsigned DEFAULT NULL,
+  `modtime` int(10) unsigned DEFAULT NULL,
+  `kindid` varchar(255) DEFAULT '0' COMMENT '商户分类ID',
+  `content` text COMMENT '商户介绍',
+  `lng` double DEFAULT NULL COMMENT '经度',
+  `lat` double DEFAULT NULL COMMENT '纬度',
+  `kindlist` varchar(255) DEFAULT NULL COMMENT '目的地',
+  `piclist` varchar(500) DEFAULT NULL COMMENT '商户图片列表',
+  `finaldestid` int(11) DEFAULT NULL COMMENT '最终目的地',
+  `account` varchar(255) DEFAULT NULL COMMENT '商户帐号二次开发用',
+  `password` varchar(255) DEFAULT NULL COMMENT '商户密码二次开发用',
+  `suppliertype` int(11) DEFAULT NULL COMMENT '商户类型：0=>系统内供应商户，1=>分销商户（我们的产品放到别人平台上卖）,2=>系统外供应商户（放在我们平台上卖）',
+  `supplierexdata` longtext COMMENT '商户扩展数据',
+  `verifystatus` int(1) DEFAULT '0' COMMENT '验证状态：0=>未认证,1=>审核中,2=>未通过,3=>已认证',
+  `displayorder` int(11) DEFAULT '9999' COMMENT '排序',
+  `reason` varchar(500) DEFAULT '9999' COMMENT '未通过原因',
+  `reprent` varchar(100) DEFAULT '9999' COMMENT '法人代表',
+  `creditamount` float(10,2) NOT NULL DEFAULT '0.00' COMMENT '授信额度',
+  `authorization` varchar(255) DEFAULT NULL COMMENT '供应商权限',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='供应商表';
+DROP TABLE IF EXISTS `sline_supplier_finance_drawcash`;
+CREATE TABLE `sline_supplier_finance_drawcash` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+  `supplierid` int(11) DEFAULT NULL COMMENT '分销商ID',
+  `withdrawamount` float DEFAULT NULL COMMENT '提现金额',
+  `proceeds_type` tinyint(1) DEFAULT '1' COMMENT '收款方类型:1银行 2支付宝',
+  `bankname` varchar(255) DEFAULT NULL COMMENT '银行名称',
+  `bankcardnumber` varchar(100) DEFAULT NULL COMMENT '银行卡号',
+  `bankaccountname` varchar(255) DEFAULT NULL COMMENT '银行账户名',
+  `alipayaccount` varchar(255) DEFAULT NULL COMMENT '支付宝账号',
+  `alipayaccountname` varchar(255) DEFAULT NULL COMMENT '支付宝账户姓名',
+  `description` varchar(255) DEFAULT NULL COMMENT '说明',
+  `addtime` int(11) DEFAULT NULL COMMENT '申请时间',
+  `finishtime` int(11) DEFAULT NULL COMMENT '完成或拒绝时间',
+  `status` tinyint(2) DEFAULT '0' COMMENT '提现状态(0 提交中，1完成,  2未通过)',
+  `audit_description` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='分销商提现';
+DROP TABLE IF EXISTS `sline_supplier_kind`;
+CREATE TABLE `sline_supplier_kind` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `kindname` varchar(255) DEFAULT NULL COMMENT '分类名称',
+  `isopen` tinyint(1) DEFAULT '1' COMMENT '是否显示',
+  `pid` int(11) unsigned DEFAULT '0' COMMENT '父级id',
+  `displayorder` int(11) unsigned DEFAULT '9999' COMMENT '排序',
+  `path` varchar(255) DEFAULT NULL COMMENT '分类路径',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='供应商类型表';
+DROP TABLE IF EXISTS `sline_sysconfig`;
+CREATE TABLE `sline_sysconfig` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `webid` int(3) DEFAULT NULL,
+  `varname` varchar(255) DEFAULT NULL COMMENT '变量名称',
+  `info` varchar(255) DEFAULT NULL COMMENT '参数描述',
+  `value` mediumtext COMMENT '变量值',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=967 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='系统变量配置表';
+DROP TABLE IF EXISTS `sline_tagword`;
+CREATE TABLE `sline_tagword` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `webid` int(3) DEFAULT '1',
+  `typeid` int(11) DEFAULT NULL,
+  `title` char(255) DEFAULT NULL,
+  `tagword` varchar(255) DEFAULT NULL COMMENT '具体词语',
+  `aid` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='相关词总汇(弃用)';
+DROP TABLE IF EXISTS `sline_templet`;
+CREATE TABLE `sline_templet` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tempname` varchar(30) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `addtime` int(11) DEFAULT NULL,
+  `zippath` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='模板皮肤表(4.2版本使用)';
+DROP TABLE IF EXISTS `sline_theme`;
+CREATE TABLE `sline_theme` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `aid` varchar(255) DEFAULT NULL COMMENT '弃用',
+  `webid` int(2) unsigned DEFAULT '0' COMMENT '站点id(弃用)',
+  `ztname` varchar(255) DEFAULT NULL COMMENT '专题名称',
+  `seotitle` varchar(255) DEFAULT NULL COMMENT 'seo标题',
+  `shortname` varchar(255) DEFAULT NULL COMMENT '专题简短主题',
+  `keyword` varchar(255) DEFAULT NULL COMMENT '关键词',
+  `description` varchar(255) DEFAULT NULL COMMENT '描述',
+  `logo` varchar(255) DEFAULT NULL COMMENT '主题游LOGO',
+  `jieshao` text COMMENT '专题介绍',
+  `bgcolor` varchar(255) DEFAULT NULL COMMENT '背景颜色',
+  `bgimage` varchar(255) DEFAULT NULL COMMENT '专题背景',
+  `templetpath` varchar(255) DEFAULT NULL COMMENT '自定义模板名称',
+  `kindlist` varchar(255) DEFAULT NULL COMMENT '专题所属目的地',
+  `tagword` varchar(255) DEFAULT NULL COMMENT 'tag词',
+  `shownum` int(11) unsigned DEFAULT NULL COMMENT '查看次数',
+  `displayorder` int(11) unsigned DEFAULT '9999' COMMENT '排序',
+  `addtime` int(11) unsigned DEFAULT NULL COMMENT '添加时间',
+  `modtime` varchar(255) DEFAULT NULL COMMENT '修改时间',
+  `isopen` int(1) unsigned DEFAULT '1' COMMENT '是否开启',
+  `templet` varchar(255) DEFAULT NULL COMMENT '专题模板',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='专题表';
+DROP TABLE IF EXISTS `sline_tool_link`;
+CREATE TABLE `sline_tool_link` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) DEFAULT NULL,
+  `type` int(1) DEFAULT '2' COMMENT '1,重要目标关键词,2,长尾关键词',
+  `linkurl` varchar(500) DEFAULT NULL COMMENT '链接地址',
+  `linelink` int(6) DEFAULT '0' COMMENT '线路链接数量',
+  `addtime` int(10) unsigned DEFAULT '0' COMMENT '添加时间',
+  `hotellink` int(6) unsigned DEFAULT '0' COMMENT '酒店产品链接数量',
+  `carlink` int(6) unsigned DEFAULT '0' COMMENT '租车产品链接数量',
+  `articlelink` int(6) unsigned DEFAULT '0' COMMENT '文章链接数量',
+  `spotlink` int(6) unsigned DEFAULT '0' COMMENT '景点链接数量',
+  `photolink` int(6) unsigned DEFAULT '0' COMMENT '相册链接数量',
+  `visalink` int(6) unsigned DEFAULT '0' COMMENT '签证链接数量',
+  `questionlink` int(6) unsigned DEFAULT '0' COMMENT '问答链接数量',
+  `tuanlink` int(6) unsigned DEFAULT '0' COMMENT '团购链接数量',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='智能链接优化表';
+DROP TABLE IF EXISTS `sline_user_log`;
+CREATE TABLE `sline_user_log` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `logtime` int(11) unsigned NOT NULL COMMENT '日志时间',
+  `uid` int(6) unsigned NOT NULL COMMENT '用户id',
+  `username` char(50) NOT NULL COMMENT '用户名',
+  `loginfo` varchar(100) NOT NULL COMMENT '操作信息',
+  `logip` varchar(100) NOT NULL COMMENT '操作ip',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='后台用户操作日志表';
+DROP TABLE IF EXISTS `sline_weblist`;
+CREATE TABLE `sline_weblist` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `webname` varchar(255) DEFAULT NULL COMMENT '网站名称',
+  `weburl` varchar(255) DEFAULT NULL COMMENT '网站地址',
+  `webid` int(11) DEFAULT NULL COMMENT '站点id',
+  `webroot` varchar(255) DEFAULT NULL COMMENT '站点目录(弃用)',
+  `webprefix` varchar(255) DEFAULT NULL COMMENT '站点域名前辍',
+  PRIMARY KEY (`id`),
+  KEY `IDX_WEBID_WEBPREFIX` (`webid`,`webprefix`) USING BTREE,
+  KEY `IDX_WEBID_WEBURL` (`webid`,`weburl`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='网站信息表';
+DROP TABLE IF EXISTS `sline_yqlj`;
+CREATE TABLE `sline_yqlj` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `webid` int(2) unsigned DEFAULT '1' COMMENT '站点id',
+  `sitename` varchar(50) DEFAULT NULL COMMENT '网站名字',
+  `siteurl` varchar(255) DEFAULT NULL COMMENT '链接地址',
+  `addtime` int(10) unsigned DEFAULT NULL COMMENT '添加时间',
+  `address` varchar(50) DEFAULT '0' COMMENT '显示栏目',
+  `displayorder` int(11) DEFAULT NULL COMMENT '排序',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='友情链接';
